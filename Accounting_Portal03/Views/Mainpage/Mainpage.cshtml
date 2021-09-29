@@ -1,0 +1,481 @@
+﻿@model Accounting_Portal03.Models.ViewModel
+@{
+    ViewBag.Title = "Mainpage";
+}
+<div class="col-ld-12 body">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script src="mmddyyyy-validation.js"></script>
+    <div class="col-md-2 leftPane">
+        <h3>Forms</h3>
+        <div class="formButtons">
+            <button class="bActive" type="button">Add new donor</button>
+            <button type="button">Add new income</button>
+            <button type="button">Add new expense</button>
+        </div>
+        <hr>
+        <h3>Query</h3>
+        <p>Select table to query</p>
+        <select name="query" id="query">
+            <option value="donor">Donors</option>
+            <option value="donations">Donations</option>
+            <option value="expenditures">Expenditure</option>
+        </select>
+        <p>Select start date</p>
+        <input type="date" id="start" name="start" value="03/09/2021" min="01/01/2021" max="30/12/2021" required>
+        <p>Select finish date</p>
+        <input type="date" id="end" name="end" value="04/09/2021" min="01/01/2021" max="30/12/2021" required>
+        <hr>
+        <h3>Report</h3>
+        <button type="button">Report 1</button>
+        <button type="button">Report 1</button>
+        <button type="button">Report 1</button>
+    </div>
+    <div class="col-md-10 main">
+        <div class="content">
+            <div class="content_inside content_inside_active col-ld-12">
+                @using (Html.BeginForm("Don", "Mainpage", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" });
+                    <h2>Add new donor</h2>
+                    <form>
+                        <div class="col-md-12 name">
+                            @Html.LabelFor(model => model.donor.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.donor.name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.donor.name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12 email">
+                            @Html.LabelFor(model => model.donor.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.donor.email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.donor.email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12 address">
+                            @Html.LabelFor(model => model.donor.address, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.donor.address, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.donor.address, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12 dob">
+                            @Html.LabelFor(model => model.donor.dateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.donor.dateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.donor.dateOfBirth, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12 mobile">
+                            @Html.LabelFor(model => model.donor.mobilePhone, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.donor.mobilePhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.donor.mobilePhone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12 home">
+                            @Html.LabelFor(model => model.donor.homePhone, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.donor.homePhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.donor.homePhone, "", new { @class = "text-danger" })
+                        </div>
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </form>
+                }
+            </div>
+            <div class="content_inside col-md-12">
+                <div class="col-md-3 typePane">
+                    <h4>Add New Income</h4>
+                    <br>
+                    <label>Income Type</label>
+                    <div class="donationType">
+                        <button class="typeActive" type="button">Cash</button>
+                        <button type="button">Envelope</button>
+                        <button type="button">Online</button>
+                    </div>
+                    <hr>
+
+                </div>
+                <div class="col-md-9 main">
+                    <div class="formContent">
+                        <div class="formContent_inside formContent_inside_active col-md-12">
+                            <h3>New Cash Income</h3>
+                            <form method="post" action="~/Mainpage/Cash">
+                                <div class="col-md-12 cashAmount">
+                                    @Html.LabelFor(model => model.donation.amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.ValidationMessageFor(model => model.donation.amount, "", new { @class = "text-danger" })
+                                    <input type="text" name="amount">
+                                    <input type="date" id="donationDate" name="date" value="03/09/2021" min="01/01/2021" max="30/12/2021">
+                                </div>
+                                <input type="submit" value="Add" class="btn btn-default" />
+                            </form>
+                        </div>
+                        @Html.DisplayNameFor(model => model.donor.ID)
+                        @Html.DisplayNameFor(model => model.donor.name)
+
+                    <div class="formContent_inside col-md-12">
+                        <h3>New Envelope</h3>
+                        <form method="post" action="~/Mainpage/SearchDonorName">
+                            <div class="col-md-12 findByID">
+                                <label class="control-label col-md-2">Donor ID/No:</label>
+                                @Html.EditorFor(model => model.donor.ID, new { htmlAttributes = new { @class = "form-control" } })
+                                <input type="submit" value="Search" class="btn btn-default" />
+                            </div>
+                        </form>
+                        <form method="post" action="~/Mainpage/SearchDonorName">
+                            <div class="col-md-12 findByName">
+                                <label class="control-label col-md-2">Donor Name:</label>
+                                @Html.EditorFor(model => model.donor.name, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <input type="submit" value="Search" class="btn btn-default" />
+                        </form>
+                    </div>
+
+
+                    <div class="formContent_inside col-md-12">
+                        <h3>New Online Income</h3>
+                        <form method="post" action="~/Mainpage/SearchDonorNameOnline">
+                            <div class="col-md-12 findByID">
+                                <label class="control-label col-md-2">Donor ID/No:</label>
+                                @Html.EditorFor(model => model.donor.ID, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <input type="submit" value="Search" class="btn btn-default" />
+                        </form>
+                        <form method="post" action="~/Mainpage/SearchDonorNameOnline">
+                            <div class="col-md-12 findByName">
+                                <label class="control-label col-md-2">Donor Name:</label>
+                                @Html.EditorFor(model => model.donor.name, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <input type="submit" value="Search" class="btn btn-default" />
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content_inside col-md-12">
+                <h2>Expenditure Form</h2>
+                <form method="post" action="~/Mainpage/Expenditure">
+                    <div class="col-md-12 expendDate">
+                        <input class="form-control" type="date" id="start" name="date" value="03/09/2021" min="01/01/2021" max="30/12/2021">
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 category">
+                            <label class="control-label col-md-2">Category</label>
+                            <select class="form-control" name="category" id="category" onchange="configureDropDownLists(this,document.getElementById('subcategory'))">
+                                <option value="Bank">Funds</option>
+                                <option value="Missions">Missions</option>
+                                <option value="Names">Names</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 categorycode">
+                            <label class="control-label col-md-3">Category Code</label>
+                            <label class="control-label col-md-3">auto</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 category">
+                            <label class="control-label col-md-2">Sub-Category</label>
+                            <select class="form-control" name="subcategory" id="subcategory">
+                                <option value="Food">Food</option>
+                                <option value="Option">optio</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 subcategorycode">
+                            <label class="control-label col-md-3">Sub-Category Code</label>
+                            <label class="control-label col-md-3">auto</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 amount">
+                        @Html.LabelFor(model => model.expenditure.amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <input class="col-md-4" type="text" name="amount">
+                    </div>
+                    <div class="col-md-12 reference">
+                        @Html.LabelFor(model => model.expenditure.invoiceReference, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <input class="col-md-4" type="text" name="invoiceRef">
+                    </div>
+                    <div class="col-md-12 notes">
+                        @Html.LabelFor(model => model.expenditure.notes, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <input class="col-md-4" type="text" name="notes">
+                    </div>
+                    <input type="submit" value="Add" class="btn btn-default" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+
+
+<style>
+
+    .body {
+        padding: 5px;
+    }
+
+    .leftPane {
+        text-align: center;
+        border-radius: 25px;
+        background-color: #91e4fb;
+        border: 0.1px solid #91e4fb;
+    }
+
+        .leftPane h3 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .leftPane button {
+            width: 70%;
+            height: 26px;
+            margin-bottom: 10px;
+        }
+
+        .leftPane p {
+            margin-bottom: 2px;
+        }
+
+        .leftPane hr {
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+    .typePane {
+        text-align: center;
+        border-radius: 25px;
+        background-color: #91e4fb;
+        border: 0.1px solid #91e4fb;
+    }
+
+        .typePane h4 {
+            text-align: center;
+            color: black;
+            margin-top: 10px;
+            margin-bottom: 0px;
+        }
+
+        .typePane button {
+            width: 70%;
+            height: 26px;
+            margin-bottom: 10px;
+        }
+
+        .typePane p {
+            margin-bottom: 2px;
+        }
+
+        .typePane hr {
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+    .main {
+        text-align: center;
+        border-radius: 25px;
+        border: 1px solid #000000;
+        margin-top: 3px;
+    }
+
+    #start, #query {
+        width: 70%;
+        height: 26px;
+    }
+
+    #end {
+        width: 70%;
+        height: 26px;
+        margin-bottom: 10px;
+    }
+
+    .formButtons button {
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    .bActive {
+        color: teal;
+    }
+
+    .content_inside {
+        display: none;
+        padding: 10px;
+    }
+
+    .content_inside_active {
+        display: block;
+    }
+
+    .donationType button {
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    .typeActive {
+        color: teal;
+    }
+
+    .formContent_inside {
+        display: none;
+        padding: 10px;
+    }
+
+    .formContent_inside_active {
+        display: block;
+    }
+
+    .name, .email, .address, .dob, .mobile, .home {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .expendDate, .category, .categorycode, .subcategory, .subcategorycode, .amount, .reference, .notes {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cashAmount, .findByID, .findByName {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #donationDate {
+        width: 70%;
+        margin-bottom: 15px;
+    }
+
+    #ePurpose {
+        height: 26px;
+    }
+
+    #oPurpose {
+        height: 26px;
+    }
+
+    .purpose {
+        margin-top: 20px;
+    }
+
+    #newPurposeBtn {
+        padding-bottom: 10px;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+</style>
+
+<script>
+    let button = document.querySelectorAll('.formButtons button');
+    let content_inside = document.querySelectorAll('.content_inside');
+
+    Array.from(button).forEach(function (buttonArray, i) {
+        buttonArray.addEventListener('click', function () {
+
+            Array.from(button).forEach(buttonAll => buttonAll.classList.remove('bActive'));
+
+            Array.from(content_inside).forEach(content_insideAll => content_insideAll.classList.remove('content_inside_active'));
+
+            button[i].classList.add('bActive');
+
+            content_inside[i].classList.add('content_inside_active');
+        });
+    });
+    let formButton = document.querySelectorAll('.donationType button');
+    let formContent_inside = document.querySelectorAll('.formContent_inside');
+
+    Array.from(formButton).forEach(function (buttonArrayy, i) {
+        buttonArrayy.addEventListener('click', function () {
+
+            Array.from(formButton).forEach(buttonAll => buttonAll.classList.remove('typeActive'));
+
+            Array.from(formContent_inside).forEach(content_insideAlll => content_insideAlll.classList.remove('formContent_inside_active'));
+
+            formButton[i].classList.add('typeActive');
+
+            formContent_inside[i].classList.add('formContent_inside_active');
+        });
+    });
+
+    document.getElementById("newPurposeBtn").onclick = function () {
+        var container = document.getElementById("oContainer");
+        var section = document.getElementById("oSection");
+        container.appendChild(section.cloneNode(true));
+    }
+
+    function configureDropDownLists(category, subcategory) {
+        var bank = ['Food', 'Option'];
+        var missions = ['Mens', 'Womens', 'Children'];
+        var names = ['John', 'David', 'Sarah'];
+
+        switch (category.value) {
+            case 'Bank':
+                subcategory.options.length = 0;
+                for (i = 0; i < bank.length; i++) {
+                    createOption(subcategory, bank[i], bank[i]);
+                }
+                break;
+            case 'Missions':
+                subcategory.options.length = 0;
+                for (i = 0; i < missions.length; i++) {
+                    createOption(subcategory, missions[i], missions[i]);
+                }
+                break;
+            case 'Names':
+                subcategory.options.length = 0;
+                for (i = 0; i < names.length; i++) {
+                    createOption(subcategory, names[i], names[i]);
+                }
+                break;
+            default:
+                subcategory.options.length = 0;
+                break;
+        }
+
+    }
+
+    function createOption(category, text, value) {
+        var opt = document.createElement('option');
+        opt.value = value;
+        opt.text = text;
+        category.options.add(opt);
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
